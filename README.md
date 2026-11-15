@@ -76,6 +76,9 @@ codex plugin add codence@codence
 ```
 最初に呼ぶもの / First call: `$codence:init`（名前空間が要る / the namespace is required）
 
+`review` は読むだけの git のコマンド（`git diff`・`git ls-files`・`git hash-object`）を使う。許可しておくと、確認で止まらない。
+`review` runs read-only git commands (`git diff`, `git ls-files`, `git hash-object`); allow them to avoid permission prompts.
+
 **更新 / Update**
 
 | ツール / Tool | コマンド / Commands |
