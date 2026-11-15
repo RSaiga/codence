@@ -36,11 +36,12 @@ Read-only throughout. Fixing is not part of review.
   - 観点ごとの基準のファイル（`profile.md` の `lenses.<観点>.catalog`）を読む。`catalog_auto_loaded: true` の観点は除く。
     `profile.md` の `examples` が `none` 以外なら、挙げた言語パックごとに、キットの `examples/<言語>/<観点>.md` もあれば読む（直し方の見本。要件ではない）。
     言語パックが複数あるときは、対象のファイルの言語に合うものだけを読む（変更が TypeScript だけなら `typescript` だけ）。
-  - 次の 1 つのコマンドを実行する（最後の行は作業ツリーの指紋。追跡外のファイルも含む）:
+  - 次の 1 つのコマンドを、**このとおりに**実行する（最後の `---` のあとが作業ツリーの指紋。追跡外のファイルも含む）。
+    形を変えない。波括弧・`xargs`・リダイレクトを足すと、実行の前に許可を確かめられず止められることがある。
   ```
-  git diff --name-only <diff_base>...HEAD; echo ---; git diff --name-only; echo ---; git diff --name-only --cached; echo ---; git ls-files --others --exclude-standard; echo ---; git diff <diff_base>; echo ---; { git diff HEAD; git diff --cached; git ls-files --others --exclude-standard -z | xargs -0 git hash-object; } | git hash-object --stdin
+  git diff --name-only <diff_base>...HEAD; echo ---; git diff --name-only; echo ---; git diff --name-only --cached; echo ---; git ls-files --others --exclude-standard; echo ---; git diff <diff_base>; echo ---; git diff HEAD | git hash-object --stdin; git ls-files --others --exclude-standard | git hash-object --stdin-paths
   ```
-  If no target is given, review the working change. In the turn after reading the configuration, read the lens files and their catalogs (unless auto-loaded) and run the one command above, all together.
+  If no target is given, review the working change. In the turn after reading the configuration, read the lens files and their catalogs (unless auto-loaded) and run the one command above verbatim, all together; braces, `xargs` or redirects can make it uncheckable and blocked.
 - `profile.md` の `code` に当てはまるファイルだけを残す。追跡外の新しいファイルも対象（中身は差分ではなくファイルとして読む）。
 - **変更を対象にするときは、変更した行を中心に見る。** 周りの文脈は読んでよいが、変更と関係のない既存のコードは指摘しない。
   ファイルかディレクトリを対象にするときは、すべての行が対象。
@@ -81,7 +82,7 @@ shared state (isolation still runs on test changes), or a rename inside one func
   10 分で終わらない・0 以外で終わる・最後の行が無い観点は `## LENS STOPPED`。`combined` では、頼んだ観点ごとに節がちょうど 1 つあることを確かめる。
   `command` runs each lens through `runner_command` (an argv array; only `{root}` is substituted) with the prompt on stdin, never in an argument.
   A timeout (10 min), a non-zero exit or a missing last line makes that lens STOPPED.
-- **終わったら、1 のコマンドの指紋をもう一度とる。** 変わっていたら、結果を捨てて「読んでいるあいだに作業ツリーが変わった」と報告し、`## LENS STOPPED` で終える。
+- **終わったら、指紋をもう一度とる。** 1 のコマンドの最後の 2 つ（`git diff HEAD | git hash-object --stdin; git ls-files --others --exclude-standard | git hash-object --stdin-paths`）だけを、このとおりに実行して比べる。変わっていたら、結果を捨てて「読んでいるあいだに作業ツリーが変わった」と報告し、`## LENS STOPPED` で終える。
 Run per `runner`: `inline` in this context; `subagent` in fresh contexts (parallel per lens, or combined with one section per lens).
 A lens that fails to start or answers without its last line is STOPPED, never CLEAN. Re-take the snapshot afterwards; if it changed, discard.
 
