@@ -46,6 +46,12 @@ Write no code and no tests. The only file you may write is this branch's test li
 - **内側:** シナリオごと（単層ならリスト全体）に、ZOMBIES で洗い出す。
   - Z → O → M の順に一般化し、Boundary と Exceptional は意味を持つ段に挟む（末尾にまとめない）。Interface（引数と応答の形）は Zero の項目で決める。
   - 1 項目 = 1 つの振る舞い。各項目に、どの境界のテストか（`tdd.tests` の種類）を書く。層ごとに項目を割らない。
+  - **触る面ごとに、少なくとも 1 項目。** 面は、外から見える応答や表示を確かめる境界（API の応答、画面、外への連携の口など）。
+    面は別々に壊れるので、1 つの面が緑でもほかの面は何も守られない。同じ面の裏の層には割らないが、別の面は割る。
+    共通の仕組みを直すだけで、ある面が最初から成り立つなら（下の「すでに成り立つ振る舞い」）、その面が共通の仕組みを通ることを確かめている既存のテストを
+    「既存のテスト」に名指す。名指せるテストが無ければ、その面の項目を `[pin]` で立てる（最初から緑でよい。その面がつながっていることを守る）。
+    One item per surface the change touches: surfaces fail independently. Don't split layers behind one surface; do split surfaces.
+    If a shared fix already makes a surface hold, name the existing test proving that surface goes through it; with none, add a `[pin]` item for that surface.
   - 1 件目が固定値で通り、次の項目がそれを一般化させるように並べる。
   - 不具合の修正なら、不具合を再現して落ちるテストを先頭に置く。
 - **実際に使われる経路に絞る。** 呼ばれていない分岐やパラメータは「今回やらない」に理由つきで置く。

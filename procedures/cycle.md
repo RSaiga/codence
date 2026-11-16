@@ -79,6 +79,13 @@ With `commit: never`, commit steps record a proposal in the report and the loop 
 
 赤なら、コミットを取り消さず、どの変更が原因かを報告して止まる（直すのは次の red の仕事）。
 
+緑なら、続けて:
+4. **文書のずれを直す。** テストもビルドも読まない文書（README、エージェントのルール、ツールの説明など）は、ずれても何も落ちない。
+   このブランチで変えた・消した名前（関数・コマンド・パス・環境変数・設定の項目・ポートなど）を、リポジトリ全体で 1 回の検索で探す（言語で絞らない）。
+   - 直すのは**古い事実**だけ（消えた名前、動いたパス、そのままでは失敗するコマンド）。直したら `docs` の 1 コミットにする（`commit.md`）。
+   - 文書の規範（〜する・〜しない）とコードが食い違うものは、文書が古いのではなくコードの側の問題。書き換えずに報告する。
+   Grep the whole repo for names this branch changed or removed; fix only stale facts in docs (one `docs` commit), and report — never rewrite — rules the code contradicts.
+
 ## lint にできる候補 / Lint candidates
 
 抜けたら（回しきった・止まった のどちらでも）、同じ直しを繰り返していないかを見る。繰り返した直しは、手順や規約の文ではなく lint のルールにすると、次からは読まなくても止まる。
@@ -121,6 +128,7 @@ and change nothing: the user decides.
 完了: シナリオ <n> 本・内側 <m> 件 / 残り: シナリオ <n'> 本・内側 <m'> 件（止まった項目が [~] のままか [ ] に戻したか）
 コミット: <hash と件名>（commit: never なら、コミットの案）
 全体の実行: <抜けたあとの全体の実行と、空のデータからの受け入れテストのコマンドと結果>
+文書:      <直した古い事実と commit、報告だけのもの。無ければ「ずれなし」>
 スタック: 停止済み
 止まった理由: <止まる条件のどれか。回しきったなら「リストが尽きた」>
 ```
