@@ -26,6 +26,12 @@ Handles both the single layer and the double loop, stage by stage or end to end 
    (3) ユーザーの明示の指示（承認されたリストを含む）の順に取り、どこから取ったかを報告に書く。どれからも取れなければ、聞いて止まる。
    Every expected value has a source, in that order; name it. If none gives the value, ask and stop.
 6. **迷ったら止まる。** 回しきることは目的ではない。 / When in doubt, stop.
+7. **失敗の原因を推測しない。** 意図しない失敗（赤のはずが別の理由で落ちた、緑のはずが落ちた、外側が赤のまま）は、直し方を考える前に、失敗が残した記録を見る。
+   テストの出力の全文、`tdd.stack` の `failure_artifacts` と出力が示す記録（画面の画像・DOM の写し・trace）、ブラウザで動くテストならコンソールのエラー。
+   画像と文字の記録を先に見る（動画は直接は読めない）。見たファイルと、そこで見えたことを報告の「記録」に書いてから、コードを読んで直し方を決める。
+   **記録を開かずに、推測で直して走らせ直さない。** 記録が無い・開けないならそう書き、出力から原因が決まらなければ止まる。
+   On an unintended failure, open what the failure left behind (full output, failure artifacts — screenshots, DOM snapshots, traces — and browser console) before touching code,
+   and name what you saw. Never guess, edit and rerun. If nothing can be opened and the output does not settle the cause, stop.
 
 ## プロジェクトの情報 / Project facts
 
@@ -120,6 +126,7 @@ with no way to run tests, stop without building one.
 ```
 変更: <触ったファイルと一言>
 テスト: <走らせたコマンド> → <生の出力の要点>
+記録: <意図しない失敗で開いた記録と、そこで見えたこと>
 出典: <期待値をどこから取ったか>
 残り: <未着手 n 件。0 なら「完了」>
 次:   <次の段階>
