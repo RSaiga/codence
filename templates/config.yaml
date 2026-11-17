@@ -2,6 +2,7 @@ runner: inline          # inline | subagent (runner_mode: parallel | combined, r
 lenses: [structure]     # structure, acceptance, security, concurrency, isolation
 backlog: none           # none | file (.codence/backlog.md, written by tdd-plan when it splits a request into stories)
 router: none            # none | inert (skip security/concurrency on comment-only, new-test-only or rename-only changes)
+on_doubt: stop          # stop | log (tdd-cycle: log decides or parks instead of stopping, and keeps .codence/decisions/<branch>.md)
 commit: never           # never | on-request | on-green
 commit_language: en     # language of commit subjects
 commit_style: conventional  # conventional (<type>(<scope>): <subject>) | history (match the last 20 subjects)

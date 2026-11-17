@@ -9,11 +9,13 @@ Runs the stage procedures in order. Crosses stage boundaries only; every stage k
 With `commit: never`, commit steps record a proposal in the report and the loop continues.
 
 **判断に迷ったら止まる方を選ぶ。** 回しきることは目的ではない。 / When in doubt, stop.
+ただし `on_doubt` が `log` の回は、`unattended.md` に従う（戻せないものでは止まり、ほかは決めて進むか保留して次へ進み、判断の記録に残す）。
+With `on_doubt: log`, follow `unattended.md` instead.
 
 ## 始める前 / Before the loop
 
 最初の往復で、`discipline.md`・`tdd.md`・この手順・各段階の手順と設定をまとめて読む（`discipline.md` の「まとめて行う」）。
-次の往復で、リストと `tdd.rules` の規約を読み、`git status` と `git log --format='%h %s' <diff_base>..HEAD` を見る。どれもループの中で読み直さない。
+次の往復で、リストと `tdd.rules` の規約（`on_doubt` が `log` なら `unattended.md` と判断の記録も）を読み、`git status` と `git log --format='%h %s' <diff_base>..HEAD` を見る。どれもループの中で読み直さない。
 
 1. **リストを確かめる**（`tdd.md`「テストのリスト」）。無い・書けない → 止まる。全部終わっている → 緑を確かめて「完了」と伝えて止まる。
 2. **最初が緑であることを確かめる。** リストが触る範囲の `fast` のスイートを全体で走らせる。`tdd.known_failures` に名前のある失敗だけを除き、
@@ -132,6 +134,7 @@ and change nothing: the user decides.
 スタック: 停止済み
 止まった理由: <止まる条件のどれか。回しきったなら「リストが尽きた」>
 ```
+`on_doubt` が `log` の回は、`unattended.md` の「判断:」の行を足す。
 lint にできる候補があるときだけ、最後に足す（無ければ何も書かない）:
 ```
 lint にできる候補:
