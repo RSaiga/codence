@@ -13,7 +13,7 @@ With `commit: never`, commit steps record a proposal in the report and the loop 
 ## 始める前 / Before the loop
 
 最初の往復で、`discipline.md`・`tdd.md`・この手順・各段階の手順と設定をまとめて読む（`discipline.md` の「まとめて行う」）。
-次の往復で、リストと `tdd.rules` の規約を読み、`git status` を見る。どれもループの中で読み直さない。
+次の往復で、リストと `tdd.rules` の規約を読み、`git status` と `git log --format='%h %s' <diff_base>..HEAD` を見る。どれもループの中で読み直さない。
 
 1. **リストを確かめる**（`tdd.md`「テストのリスト」）。無い・書けない → 止まる。全部終わっている → 緑を確かめて「完了」と伝えて止まる。
 2. **最初が緑であることを確かめる。** リストが触る範囲の `fast` のスイートを全体で走らせる。`tdd.known_failures` に名前のある失敗だけを除き、
@@ -79,6 +79,36 @@ With `commit: never`, commit steps record a proposal in the report and the loop 
 
 赤なら、コミットを取り消さず、どの変更が原因かを報告して止まる（直すのは次の red の仕事）。
 
+緑なら、続けて:
+4. **文書のずれを直す。** テストもビルドも読まない文書（README、エージェントのルール、ツールの説明など）は、ずれても何も落ちない。
+   このブランチで変えた・消した名前（関数・コマンド・パス・環境変数・設定の項目・ポートなど）を、リポジトリ全体で 1 回の検索で探す（言語で絞らない）。
+   - 直すのは**古い事実**だけ（消えた名前、動いたパス、そのままでは失敗するコマンド）。直したら `docs` の 1 コミットにする（`commit.md`）。
+   - 文書の規範（〜する・〜しない）とコードが食い違うものは、文書が古いのではなくコードの側の問題。書き換えずに報告する。
+   Grep the whole repo for names this branch changed or removed; fix only stale facts in docs (one `docs` commit), and report — never rewrite — rules the code contradicts.
+
+## lint にできる候補 / Lint candidates
+
+抜けたら（回しきった・止まった のどちらでも）、同じ直しを繰り返していないかを見る。繰り返した直しは、手順や規約の文ではなく lint のルールにすると、次からは読まなくても止まる。
+After the loop, look for a fix made more than once; a repeated fix belongs in a lint rule, which stops it without being read.
+
+1. **材料は 2 つだけで、どちらも文脈にある。** この実行で refactor と受け入れの観点が直したものと、「始める前」に見た件名のうち `refactor` のコミット。
+   **数える:** 始める前に見た `refactor` のコミットの件数 + この実行で直した件数。**2 に満たなければ、ここで終わる。** 2 以上なら、始める前のコミットを `git show` で読んで、同じ形の直しかを確かめる
+   （始める前のコミットだけで 2 件ある場合も、この実行で直していなくても確かめる）。
+2. **候補にするのは、次をどちらも満たすものだけ。**
+   - 同じ形の直しが 2 回以上ある（同じ呼び出し・import・型・書き方を、同じ置き換え先に直した）。
+   - 字句や構文の形で見つけられる（特定の関数の呼び出し、モジュールの import、型の使用）。「長い関数」「名前が意図を語らない」のような、判断の要るものは候補にしない。
+   **候補が無ければ、報告にも何も書かない**（「候補なし」とも書かない。候補をひねり出さない）。
+3. **候補があるときだけ、言語に合わせて書き方を決める。** 根元の lint の設定ファイルで道具を決め、キットの `examples/<言語>/lint.md` を読んで
+   （`profile.md` の `examples` に関わらず、その言語のものを読む）、その道具の設定だけで書けるルールにする。
+   置き換え先そのもの（時刻を取る関数の中など）は除外として書く。設定だけで書けなければ、そう書く。lint の道具が無ければ、道具が無いことを書く。
+4. **今ある違反を数える。** そのパターンを 1 回の検索で数え、件数と場所を添える（多ければ先頭の数件と件数）。
+5. **書き換えない。** lint の設定もリストも変えない。入れるかどうかはユーザーが決める（`tdd.md`「項目を勝手に足さない」）。
+   入れると決まったら、ルールの追加も同じ規律で回せる: 今の違反で lint が通るのを見る → ルールを足して止まるのを見る → 違反を直す。
+Use only what is already in context (this run's fixes and the refactor subjects seen before the loop); with fewer than two fixes, stop here and write nothing.
+Candidates need a fix repeated at least twice and a pattern a linter can match syntactically. Pick the tool from the root lint config,
+read the kit's `examples/<language>/lint.md`, write a configuration-only rule with the replacement exempted, count today's violations,
+and change nothing: the user decides.
+
 ## 報告 / Report
 
 冒頭に走らせ方の宣言を 1 行。二重ループならシナリオごと、内側は項目ごとに 1 行に詰める:
@@ -98,6 +128,15 @@ With `commit: never`, commit steps record a proposal in the report and the loop 
 完了: シナリオ <n> 本・内側 <m> 件 / 残り: シナリオ <n'> 本・内側 <m'> 件（止まった項目が [~] のままか [ ] に戻したか）
 コミット: <hash と件名>（commit: never なら、コミットの案）
 全体の実行: <抜けたあとの全体の実行と、空のデータからの受け入れテストのコマンドと結果>
+文書:      <直した古い事実と commit、報告だけのもの。無ければ「ずれなし」>
 スタック: 停止済み
 止まった理由: <止まる条件のどれか。回しきったなら「リストが尽きた」>
+```
+lint にできる候補があるときだけ、最後に足す（無ければ何も書かない）:
+```
+lint にできる候補:
+- <直しの形>（2 回: <どの項目・どのコミット>）
+  道具: <ESLint など>（<設定ファイル>）
+  提案: <設定の断片。除外を含む>
+  今の違反: <件数>（<場所>）
 ```

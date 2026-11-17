@@ -9,7 +9,8 @@
    Take the first `[ ]` item and mark it `[~]`. In a double-loop list, take it from the scenario in progress; with none, point at `tdd-accept`.
 2. **出典を開いて、期待値を確かめる。** 項目の出典を実際に見て値を読む。リストの出典が実際と食い違えば、書き換えずに報告して止まる。
 3. **置き場所とお手本を決める。** `tdd.tests` の置き場所に置き、お手本と隣のテストの書き方（名前、準備、アサーション）に倣う。
-   テストの名前で振る舞いを語る。
+   テストの名前で振る舞いを語る。お手本や隣が `tdd.rules` の規約と食い違うなら、規約に従い、食い違いを報告に書く（隣は直さない）。
+   Follow the example and neighbours — unless they break `tdd.rules`; then follow the rules and report the mismatch.
 4. **テストだけを書く。** 1 本に 1 つの振る舞い。コンパイルが通らない（まだ無い関数を呼ぶ）のも正しい red。
    stub は、その言語で red が見えないときだけ、空の最小限で作る。
    - `[change]`: 新しく書かず、既存のテストの期待値を承認された新しい仕様に書き換える。古い実装のせいで落ちるのが正しい red。

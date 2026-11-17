@@ -40,7 +40,7 @@ TDD runs as a **single layer** (inner tests only) or a **double loop** (acceptan
 | `review` | 観点で読む（structure・security・concurrency・isolation・acceptance）。対象は作業中の変更、ブランチか範囲、プルリクエストの URL、ファイルかディレクトリ。読むだけ / Reviews through the lenses: the working change, a branch or range, a pull request URL, or files and directories. Read-only |
 | `refactor` | TDD の外で構造だけを直す。structure の観点で匂いを挙げ、既存のテストが守っている場所だけを 1 つずつ直す / Restructures outside TDD: finds smells with the structure lens and fixes, one at a time, only what existing tests guard |
 | `tdd-plan` | これから入れる変更のテストのリストを作る（モード、シナリオ、内側の項目、影響を受ける既存のテスト）。大きな依頼は先にストーリーに分ける。承認のあとで書く / Plans the test list, splitting large requests into stories first; writes after approval |
-| `tdd-cycle` | テストのリストが尽きるまで回す。単層なら red → green → コミット → refactor、二重ループならシナリオごとに外側と内側を回す / Runs the TDD loop until the list is done, single layer or double loop |
+| `tdd-cycle` | テストのリストが尽きるまで回す。単層なら red → green → コミット → refactor、二重ループならシナリオごとに外側と内側を回す。同じ形の直しを 2 回したら、プロジェクトの言語と lint の道具に合わせた lint のルールの案を報告する（設定は書き換えない）。終わりに、変えた名前が残る文書（README など）の古い事実を直す / Runs the TDD loop until the list is done, single layer or double loop; when the same fix was made twice, proposes a lint rule for the project's linter without changing it; finally fixes stale facts in docs |
 | `tdd-accept` | 二重ループの外側の 1 手。受け入れシナリオを書き、まだ無い振る舞いのせいで落ちることを確かめる。または、走らせて緑なら閉じる / One outer-loop step: write the acceptance scenario and watch it fail, or run it and close it when green |
 | `tdd-red` `tdd-green` `tdd-refactor` `tdd-commit` | TDD の 1 段階だけを行う / Runs one TDD stage |
 | `retro` | 意図・結果・止まった箇所（と対策）を `findings.md` に残す。`track` で対策が効いたかを判定する / Records a retrospective; with `track`, judges whether countermeasures worked |
@@ -200,7 +200,7 @@ skills/       入口のスキル。短く、procedures/ の手順を読んで実
 procedures/   手順の本文（共通の規律、review、TDD の各段階など）/ the procedures
 lenses/       観点の本文 / the lenses
 agents/       観点を新しい文脈で動かす担当（Claude 用）/ fresh-context lens runners (Claude)
-examples/     言語パック（直し方の見本。TypeScript・Rust・Go・Python・Java/Kotlin・PHP・Ruby・C#）/ language packs (remedy examples)
+examples/     言語パック（直し方と lint の設定の見本。TypeScript・Rust・Go・Python・Java/Kotlin・PHP・Ruby・C#）/ language packs (remedy and lint examples)
 templates/    profile.md と config.yaml の雛形 / templates for the project settings
 bench/        費用と結果を測る仕組み / the measurement harness
 ```
