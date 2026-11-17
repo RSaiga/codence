@@ -36,6 +36,7 @@ TDD runs as a **single layer** (inner tests only) or a **double loop** (acceptan
 
 | 入口 / Entry | すること / What it does |
 |---|---|
+| `go` | どの依頼もここから。依頼を目的・問題・期待する変化の 3 行に言い直し、依頼とプロジェクトの状態から下の入口を 1 つ選び、その手順を todo に写して実行する。計画が承認されたら、そのまま cycle に進む / One entry for any request: restates it, picks one of the entries below from the request and the project's state, copies its steps to a todo and runs it; after an approved plan, goes on into the cycle |
 | `init` | プロジェクトを読んで `.codence/` の設定を下書きし、了承を得てから書く / Drafts the project settings and writes them after you agree |
 | `review` | 観点で読む（structure・security・concurrency・isolation・acceptance）。対象は作業中の変更、ブランチか範囲、プルリクエストの URL、ファイルかディレクトリ。読むだけ / Reviews through the lenses: the working change, a branch or range, a pull request URL, or files and directories. Read-only |
 | `refactor` | TDD の外で構造だけを直す。structure の観点で匂いを挙げ、既存のテストが守っている場所だけを 1 つずつ直す / Restructures outside TDD: finds smells with the structure lens and fixes, one at a time, only what existing tests guard |
