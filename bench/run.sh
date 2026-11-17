@@ -41,7 +41,7 @@ source "$base"
 : "${SOURCE_REPO:?}" "${COMMIT:?}" "${BENCH_ROOT:?}" "${WORKDIR:?}" "${RESULTS:?}" "${MODEL:?}"
 : "${EFFORT:=medium}" "${SETTING_SOURCES:=project,local}" "${PRICES:=$here/prices.json}" "${CLONE:=repo}"
 
-MARKER=".codence-bench-workdir"
+MARKER=".workdir"   # neutral: agents can list the parent folder; the old name is still accepted below
 resolve() { python3 -c 'import os,sys; print(os.path.realpath(sys.argv[1]))' "$1"; }
 inside() { case "$1/" in "$2"/*) return 0 ;; *) return 1 ;; esac; }
 
@@ -57,13 +57,15 @@ done
 
 prepare_workdir() {
   if [ -e "$work" ]; then
-    [ -f "$work/$MARKER" ] || { echo "refusing to delete $work: no $MARKER" >&2; exit 2; }
+    [ -f "$work/$MARKER" ] || [ -f "$work/.codence-bench-workdir" ] || { echo "refusing to delete $work: no $MARKER" >&2; exit 2; }
     chmod -R u+w "$work"   # a stop task may leave read-only folders behind
     rm -rf "$work"
   fi
   mkdir -p "$work"; touch "$work/$MARKER"
   git clone -q --shared --no-checkout "$src" "$work/$CLONE"
   git -C "$work/$CLONE" checkout -q --detach "$COMMIT"
+  # Blind the run: the origin URL names the bench's source folder, and agents read `git remote -v`.
+  git -C "$work/$CLONE" remote remove origin
   # Diff-based skills compare against main; pin it so only the task's change is in the diff.
   git -C "$work/$CLONE" branch -q -f main "$COMMIT"
 }

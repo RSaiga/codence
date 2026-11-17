@@ -48,6 +48,9 @@ Compare the mean total cost per run. The baseline spread is up to ±16% (structu
 - 回数を増やすときも、順番は AB / BA を入れ替える。1 回目（キャッシュなし）は別に見る。
 - トークンの内訳（キャッシュの読み込み・書き込み、出力）と往復の回数は記録する。判定には使わない。
   ただし、費用が下がった理由を説明するときは内訳で示す。
+- **平均だけで判定しない。** 版ごとに中央値と最小・最大を並べる。差が出たら、何が増えた・減ったか（往復の回数、読んだ量、走らせたテスト）を内訳で名指す。
+  名指せなければ判定しない（回数を増やす）。費用が下がったときは、比べた作業が実際に行われたか（テストを走らせた、観点が動いた）を記録で確かめる。
+  Show median and range per variant; name what drove a difference, or don't judge it. When cost drops, confirm from the transcript that the work actually happened.
 
 ## 4. 振る舞い — 採点の外を読む / Behavior — read beyond the grader
 
@@ -61,7 +64,17 @@ baseline counts as a quality regression unless explained.
 - コミット: 種類（feat / fix / refactor）、言語、1 コミット 1 意味、振る舞いとリファクタを混ぜない。
 - 報告: 決められた形式で、実行したコマンドと生の結果を示しているか。
 
-## 5. 回数 / Number of runs
+## 5. 目隠しと採点の出どころ / Blinding and what is graded
+
+- **候補に、測られていると分かる痕跡を見せない。** 作業の場所・ブランチ名・コミットの件名・プロンプトに、`bench`・`eval`・`test run`・`candidate` などの語を入れない。
+  ふつうのプロジェクトにありそうな名前にする。`run.sh` は複製から `origin` を外す（複製元のフォルダの名前が見えるため）。
+  Agents that notice they are measured behave differently: keep bench words out of paths, branches, commit subjects and prompts.
+- **したことは記録で採点し、回答の文では採点しない。** 「ファイルを開いた」「テストを走らせた」「書く前に読んだ」は、`opened`・`opened-before`・`tdd-order` などで
+  記録（ツールの呼び出し）から見る。`must`（回答の文）は、報告の形そのものを確かめるときだけに使う。
+  Grade actions from the transcript (tool calls), not from what the answer says it did; keep `must` for the report's own form.
+- 採点の誤りに気づいたら、保存した記録を採点し直す。基準は緩めない（1 節）。
+
+## 6. 回数 / Number of runs
 
 - n=3 は当たりを付けるための探索。採用を決めるのは、2 節・3 節の規則で 6 回に増やした比較か、3 回で差がはっきりした比較。
 - 調整に使った課題とは別に、評価用の課題を分けて持つ（同じ課題で調整と評価をしない）。

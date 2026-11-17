@@ -16,6 +16,11 @@
 #   plugin-loaded <regex>              some plugin in the init event matches (guards the no-* checks)
 #   no-skill <regex>                   no Skill tool call names a matching skill
 #   no-read <regex>                    no Read tool call opens a matching path
+#   opened <path-re>                   the transcript shows the file was read: a Read or Grep call on a
+#                                      matching path, or a shell command that reads it (cat, head, tail,
+#                                      sed, less, grep, rg, awk, jq, wc). Grades what was done, not what
+#                                      the answer claims
+#   opened-before <path-re> <paths-re> a matching file was read before the first write to paths-re
 #   subagent-must <regex>              what some started subagent returned must match (not the final answer)
 #   tdd-order <src-re> <test-cmd-re>   red before green, read from the stream: a test command
 #                                      (a Bash call matching test-cmd-re) fails before the first
@@ -75,6 +80,7 @@ if code != 0 or result is None or result.get("is_error") or result.get("subtype"
 heading, expected, must, max_findings = None, [], [], None
 plugin_loaded, no_skill, no_read, tdd_order = [], [], [], []
 outer_red, outer_close, no_write_before = [], [], []
+opened, opened_before = [], []
 subagent_must = []
 for line in open(expect):
     key, _, value = line.strip().partition(" ")
@@ -95,6 +101,10 @@ for line in open(expect):
         subagent_must.append(value)
     elif key == "no-read":
         no_read.append(value)
+    elif key == "opened":
+        opened.append(value)
+    elif key == "opened-before":
+        opened_before.append(value.split(" ", 1))
     elif key == "tdd-order":
         tdd_order.append(value.split(" ", 1))
     elif key in ("outer-red", "outer-close", "no-write-before-green"):
@@ -156,6 +166,12 @@ def outer_runs(cmd_re):
         counts = m.group(2) or ""
         n = 0 if m.group(3) else int(m.group(1))
         yield k, str(c["input"]["command"]), body, n, counts
+def shell_writes(cmd):
+    # Quoted text (a commit message naming <someone@example>) and redirects to fd copies or /dev/null
+    # write no file.
+    bare = re.sub(r"\"[^\"]*\"|'[^']*'", "", cmd)
+    bare = re.sub(r"\d*>&\d|[&\d]*>>?\s*/dev/null", "", bare)
+    return re.search(r"(>|\btee\b|sed -i|perl -pi|\bmv\b|\bcp\b)", bare)
 def writes(paths_re, content_re=None):
     # content_re keeps only edits whose new text matches it; shell writes cannot be read that way and
     # always count.
@@ -166,10 +182,27 @@ def writes(paths_re, content_re=None):
             text = str(i.get("new_string") or i.get("content") or "") + "".join(str(e.get("new_string") or "") for e in i.get("edits") or [])
             if content_re is None or re.search(content_re, text, re.M):
                 out.append((k, c))
-        elif c.get("name") == "Bash" and re.search(paths_re, str(i.get("command") or "")) and \
-                re.search(r"(>|\btee\b|sed -i|perl -pi|\bmv\b|\bcp\b)", re.sub(r"\d*>&\d", "", str(i.get("command") or ""))):
+        elif c.get("name") == "Bash" and re.search(paths_re, str(i.get("command") or "")) and shell_writes(str(i.get("command") or "")):
             out.append((k, c))
     return out
+reader = re.compile(r"(^|[|;&(]\s*)(cat|head|tail|sed|less|more|grep|rg|awk|jq|wc|nl)\b")
+def opens(path_re):
+    out = []
+    for k, c in enumerate(calls):
+        i = c.get("input") or {}
+        if c.get("name") in ("Read", "Grep") and re.search(path_re, str(i.get("file_path") or i.get("path") or "")):
+            out.append(k)
+        elif c.get("name") == "Bash":
+            cmd = str(i.get("command") or "")
+            words = re.split(r"[\s|;&<>()'\"]+", cmd)
+            if any(re.search(path_re, w) for w in words) and reader.search(cmd) and not denied.search(results.get(c.get("id"), "")[:400]):
+                out.append(k)
+    return out
+missed += [f"opened: no read of {p}" for p in opened if not opens(p)]
+for path_re, paths in opened_before:
+    first = min([k for k, _ in writes(paths)], default=len(calls))
+    if not any(k < first for k in opens(path_re)):
+        missed.append(f"opened-before: {path_re} not read before the first write to {paths}")
 names = lambda name, cmd, body: name in cmd or name in body
 failed_run = lambda n, counts: n > 0 and re.search(r"\d+ failed", counts)
 passed_run = lambda n, counts: n > 0 and not re.search(r"failed|undefined|pending|ambiguous", counts)

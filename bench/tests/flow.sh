@@ -74,7 +74,8 @@ assert calls.count("arg with spaces") == 4 and calls.count("*") == 4, "args were
 assert calls.count("/kit-a:review now") == 2 and calls.count("/kit-b:review now") == 2, "review command not substituted per variant"
 EOF
 
-[ -f "$tmp/root/work/.codence-bench-workdir" ] || fail "marker missing"
+[ -f "$tmp/root/work/.workdir" ] || fail "marker missing"
+[ -z "$(git -C "$tmp/root/work/repo" remote)" ] || fail "the clone still has a remote that names the source folder"
 [ "$(cat "$tmp/root/work/repo/f")" = changed ] || fail "setup did not run in the clone"
 [ "$(cat "$tmp/src/f")" = a ] || fail "source repo was modified"
 [ -z "$(git -C "$tmp/src" status --porcelain)" ] || fail "source repo is dirty"
