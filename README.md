@@ -84,8 +84,13 @@ codex plugin add codence@codence
 
 | ツール / Tool | コマンド / Commands |
 |---|---|
-| Claude Code | `claude plugin marketplace update codence` → `claude plugin update codence@codence` → 再起動 / restart |
+| Claude Code | `claude plugin marketplace update codence` → `claude plugin update codence@codence` → セッションで `/reload-plugins` / run `/reload-plugins` in the session |
 | Codex | `codex plugin marketplace upgrade codence` |
+
+Claude Code では自動更新をオンにできる（このマーケットプレイスは最初はオフ）。`/plugin` の Marketplaces で `codence` を選び、Enable auto-update を選ぶ。
+最初の発言のあと 10 分以内に新しい版を取ってくるので、知らせが出たら `/reload-plugins` で使える（打たなければ次の起動から）。
+In Claude Code, turn on auto-update once: `/plugin` → Marketplaces → `codence` → Enable auto-update (off by default for this marketplace).
+It fetches within ten minutes after your first message; run `/reload-plugins` when notified, or the new version loads on the next launch.
 
 0.3.0 で `agent-discipline` から名前を変えた。古い名前で入れているなら、外して入れ直し、プロジェクトの `.agent-discipline/` の名前を `.codence/` に変える（`.git/info/exclude` の行も）。
 Renamed from `agent-discipline` in 0.3.0: uninstall and reinstall, and rename each project's `.agent-discipline/` to `.codence/` (and its line in `.git/info/exclude`).
