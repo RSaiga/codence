@@ -1,0 +1,6 @@
+interface:
+  display_name: "go"
+  short_description: "Restate the request, pick the right entry and run it"
+
+policy:
+  allow_implicit_invocation: false
