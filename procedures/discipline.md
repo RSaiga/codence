@@ -10,6 +10,12 @@ Batch independent reads and commands into one turn; every turn re-reads the whol
 ファイルを開くと、そのフォルダを対象にしたプロジェクトの規約がまとめて読み込まれることがある。一度読んだ規約や手順は、読み直さない。
 Search first and open only what you need — opening a file can pull in the project's folder-scoped rules. Never re-read a rule or procedure already read.
 
+**報告の文では、記号や内部の名前を説明なしに使わない。** シナリオの `A<n>`、判断の `D<n>`、項目の印、手順やファイルの名前を文で初めて出すときは、
+何のことかを短く添える（例: 「A2（日付を送らずに読み終えた本を数えるシナリオ）」）。手順が決めた報告の形（コードの塊の行、「完了:」などの行）は、
+省かず、形も変えずに書き、説明はその外の文に書く。
+In prose, say briefly what a label is the first time you use it (scenario `A<n>`, decision `D<n>`, a mark, a procedure name).
+Always write the report's fixed lines and blocks too, unchanged; explanations go outside them.
+
 ## 動く条件 / Activation
 
 1. **プロジェクトの根元を決める。** `git rev-parse --show-toplevel` の結果。Git の管理外なら現在のディレクトリ。
