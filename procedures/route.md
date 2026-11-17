@@ -43,7 +43,7 @@ First matching row wins. If two rows fit and the procedures differ a lot, show b
 ## 4. todo に写す / Copy the steps to a todo
 
 選んだ入口が実行する手順の見出し（`plan.md` なら 1〜7、`cycle.md` なら「始める前」から「報告」まで）を、todo の道具に 1 行ずつ写す
-（Claude Code の TodoWrite、Codex の update_plan など。道具が無ければ報告の箇条書き）。
+（作業の一覧を持つ道具。無ければ報告の箇条書き）。
 
 - 写すのは見出しの粒度まで。手順の中の細かい項目は写さない。
 - 今回は要らない手順も消さず、`skip: <理由>` と書く（例: `skip: 単層のリストで外側が無い`）。理由の無い skip はしない。
