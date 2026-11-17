@@ -10,6 +10,12 @@ Batch independent reads and commands into one turn; every turn re-reads the whol
 ファイルを開くと、そのフォルダを対象にしたプロジェクトの規約がまとめて読み込まれることがある。一度読んだ規約や手順は、読み直さない。
 Search first and open only what you need — opening a file can pull in the project's folder-scoped rules. Never re-read a rule or procedure already read.
 
+**報告の文では、記号や内部の名前を説明なしに使わない。** シナリオの `A<n>`、判断の `D<n>`、項目の印、手順やファイルの名前を文で初めて出すときは、
+何のことかを短く添える（例: 「A2（日付を送らずに読み終えた本を数えるシナリオ）」）。手順が決めた報告の形（コードの塊の行、「完了:」などの行）は、
+省かず、形も変えずに書き、説明はその外の文に書く。
+In prose, say briefly what a label is the first time you use it (scenario `A<n>`, decision `D<n>`, a mark, a procedure name).
+Always write the report's fixed lines and blocks too, unchanged; explanations go outside them.
+
 ## 動く条件 / Activation
 
 1. **プロジェクトの根元を決める。** `git rev-parse --show-toplevel` の結果。Git の管理外なら現在のディレクトリ。
@@ -33,7 +39,7 @@ Search first and open only what you need — opening a file can pull in the proj
 | | `commit` | `never` / `on-request` / `on-green` | すべて |
 | | `commit_language` | コミットメッセージの言語（例 `ja`, `en`） | TDD の入口 |
 
-任意の項目: `profile.md` の `examples`（言語パックの名前か、その一覧。`typescript`・`rust`・`go`・`python`・`java`・`php`・`ruby`・`csharp`・`none`）、`config.yaml` の `backlog`（`file`・`none`。既定は `none`。`plan.md`「ストーリーに分ける」）、`router`（`none`・`inert`。既定は `none`。`review.md`「観点を選ぶ」）、`commit_style`（`conventional`・`history`。既定は `conventional`。`commit.md`）、`second_opinion_commands`（引数の配列の一覧。`--second` で使う別の AI の候補。`second-opinion.md`）。言語パック（キットの `examples/`）は、無ければ `none`。
+任意の項目: `profile.md` の `examples`（言語パックの名前か、その一覧。`typescript`・`rust`・`go`・`python`・`java`・`php`・`ruby`・`csharp`・`none`）、`config.yaml` の `backlog`（`file`・`none`。既定は `none`。`plan.md`「ストーリーに分ける」）、`router`（`none`・`inert`。既定は `none`。`review.md`「観点を選ぶ」）、`commit_style`（`conventional`・`history`。既定は `conventional`。`commit.md`）、`second_opinion_commands`（引数の配列の一覧。`--second` で使う別の AI の候補。`second-opinion.md`）、`on_doubt`（`stop`・`log`。既定は `stop`。`tdd-cycle` だけが使う。その回の依頼が「止まらずに」「朝まで」のように止まらずに回すことを明示すれば `log`、「迷ったら止まって」なら `stop`（優先順位の 1）。`unattended.md`）。言語パック（キットの `examples/`）は、無ければ `none`。
 Optional: the profile's `examples` names one language pack or a list of them; absent means none.
 
 `profile.md` の YAML の後ろの本文は、このプロジェクトについての自由なメモ。手順が参照を指示したときに読む。

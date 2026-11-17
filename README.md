@@ -113,6 +113,7 @@ Renamed from `agent-discipline` in 0.3.0: uninstall and reinstall, and rename ea
 ├── config.yaml     # キットの動かし方: runner、使う観点（既定は structure だけ）、コミットの方針と言語
 │                   # how the kit runs: runner, lenses, commit policy and language
 ├── lists/          # TDD のテストのリスト（ブランチごと）。キットはコミットしない（チームで共有するときは手順 2 で除外する）/ per-branch TDD test lists, never committed by the kit
+├── decisions/      # on_doubt: log のとき、tdd-cycle が決めた・保留したことの記録（ブランチごと）/ what tdd-cycle decided or parked, with on_doubt: log
 ├── backlog.md      # backlog: file のとき、tdd-plan が分けたストーリー / stories tdd-plan split out, with backlog: file
 └── findings.md     # retro の記録 / retro's log
 ```
@@ -120,8 +121,9 @@ Renamed from `agent-discipline` in 0.3.0: uninstall and reinstall, and rename ea
 `config.yaml` では、ほかに次を選べる。
 - `router`: `none`（既定）か `inert`。`inert` にすると、コメントだけ・テストの追加だけ・名前の変更だけの差分では security と concurrency を飛ばす。
 - `backlog`: `none`（既定）か `file`。`file` にすると、`tdd-plan` が分けたストーリーを `backlog.md` に書く。
+- `on_doubt`: `stop`（既定）か `log`。`log` にすると、`tdd-cycle` は人が見ていなくても迷いで止まらない。戻せない操作・自分のものでないプロセス・始められないときだけ止まり、ほかは戻せる方を選んで進むか、その項目を保留して（途中の変更は stash に退避）次へ進み、`decisions/<ブランチ>.md` に記録する。依頼に「朝まで止まらずに回して」のように書けば、その回だけ `log` になる。
 
-`config.yaml` also sets `router` (`none` or `inert`, which skips security/concurrency on comment-only, new-test-only or rename-only changes) and `backlog` (`none` or `file`).
+`config.yaml` also sets `router` (`none` or `inert`, which skips security/concurrency on comment-only, new-test-only or rename-only changes) `backlog` (`none` or `file`), and `on_doubt` (`stop` or `log`: with `log`, `tdd-cycle` stops only for irreversible or foreign things, otherwise decides the reversible way or parks the item and moves on, logging each in `decisions/<branch>.md`; a request saying so switches one run).
 
 項目の意味は `templates/` の雛形と、`procedures/discipline.md`・`procedures/tdd.md` の表にある。
 The keys are described by the templates in `templates/` and the tables in `procedures/discipline.md` and `procedures/tdd.md`.
