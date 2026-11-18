@@ -202,6 +202,18 @@ The first candidate whose program is not the running tool is used, so one shared
 - 実行環境のサンドボックスが外のコマンドを止めるときは、ツールのふつうのやり方で許可を求める（対話なしの実行では起動できない）。
   If a sandbox blocks the command, the tool asks for permission; non-interactive runs cannot start it.
 
+## 進み具合を見る（Claude Code、試験的）/ Watching progress (Claude Code, experimental)
+
+Claude Code では、プラグインを入れると、今のブランチのテストのリスト（`.codence/lists/<ブランチ>.md`）の進み具合が画面に出る。設定は要らない。リストの無いブランチでは何も出ない。
+
+- **プロンプトの上の帯:** 「codence ▰▰▰▰▰▰▰▱▱▱ 15/19 79% · ▶ 作業中の項目 · 保留 1」。済んだぶんは緑、作業中は黄、保留は赤。
+- **パネル:** 端末の幅が広ければ会話の横に自動で開く。狭いときや閉じたあとは `/codence-progress` で開く。全体とシナリオ・見出しごとのバー、作業中の項目とその出典、直前に済んだ項目、保留と判断の記録の件数、直近の操作 8 件、コミットしていない変更、直近のコミット 3 件。
+- **通知:** 項目が済むたびと、リストが全部済んだとき。
+
+リストを数秒おきと、ファイルを書き換えた直後に読み直す。手順は何も変えず、リストを読むだけ。Claude Code の試験的な仕組み（プラグインの hooks のモジュール）で作っているので、Claude Code の版によっては表示が出なくなることがある。そのときも codence の手順には影響しない。Codex では出ない。
+
+With Claude Code, the plugin shows how far the current branch's test list has got: a coloured band above the prompt, and a pane (opened by itself on a wide terminal, or with `/codence-progress`) with per-scenario bars, the current item, recent tool calls, uncommitted changes and recent commits. It only reads the list. It uses Claude Code's experimental hooks modules, so a Claude Code release may stop it drawing; the procedures are unaffected. Not shown in Codex.
+
 ## 仕組み / How it is built
 
 ```
@@ -212,6 +224,8 @@ agents/       観点を新しい文脈で動かす担当（Claude 用）/ fresh-
 examples/     言語パック（直し方と lint の設定の見本。TypeScript・Rust・Go・Python・Java/Kotlin・PHP・Ruby・C#）/ language packs (remedy and lint examples)
 templates/    profile.md と config.yaml の雛形 / templates for the project settings
 bench/        費用と結果を測る仕組み / the measurement harness
+hooks/        進み具合の帯とパネル（Claude Code の hooks のモジュール）/ the progress band and pane (Claude Code hooks module)
+types/        その状態の型 / its state types
 ```
 
 - 手順と観点の本文には、ツール固有の言葉を書かない。ツールの違いは、入口の 1 行（プラグインの根元の見つけ方）と、ツールごとの設定ファイル、Claude 用の担当（`agents/`）だけに置く。
