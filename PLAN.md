@@ -694,6 +694,6 @@ GitHub への public 作成と push はユーザーが行う（またはユー�
 ## 追加（2026-11-18）進み具合の帯とパネル（0.9.0、Claude Code のみ）
 
 - 動機: 回している間、何がどこまで進んでいるかが見えない。
-- 入れたもの: `hooks/`（Claude Code の hooks のモジュール）。今のブランチのリストと判断の記録を数秒おきと書き換えの直後に読み、プロンプトの上に色付きの帯、横にパネル（`/codence-progress`）、項目が済むたびに通知を出す。
+- 入れたもの: `mods/`（Claude Code の hooks のモジュール。0.9.0 では `hooks/` に置いたが、Codex はプラグインの `hooks/hooks.json` を既定で読むので 0.9.1 で移し、`.claude-plugin/plugin.json` の `hooks` で指す）。今のブランチのリストと判断の記録を数秒おきと書き換えの直後に読み、プロンプトの上に色付きの帯、横にパネル（`/codence-progress`）、項目が済むたびに通知を出す。
   手順は変えない（リストを読むだけ）。読み取りは `bench/tests/progress-parse.sh` で確かめる。
 - 試験的な仕組みの上にあるので、Claude Code の版で描けなくなりうる。そのときも手順には影響しない。帯とパネルの文言は日本語だけ（`profile.md` の `language` に合わせるのは次）。

@@ -224,7 +224,7 @@ agents/       観点を新しい文脈で動かす担当（Claude 用）/ fresh-
 examples/     言語パック（直し方と lint の設定の見本。TypeScript・Rust・Go・Python・Java/Kotlin・PHP・Ruby・C#）/ language packs (remedy and lint examples)
 templates/    profile.md と config.yaml の雛形 / templates for the project settings
 bench/        費用と結果を測る仕組み / the measurement harness
-hooks/        進み具合の帯とパネル（Claude Code の hooks のモジュール）/ the progress band and pane (Claude Code hooks module)
+mods/         進み具合の帯とパネル（Claude Code の hooks のモジュール。Codex が既定で読む hooks/ には置かない）/ the progress band and pane (Claude Code hooks module; kept out of hooks/, which Codex reads by default)
 types/        その状態の型 / its state types
 ```
 
