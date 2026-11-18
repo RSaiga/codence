@@ -102,6 +102,8 @@ with no way to run tests, stop without building one.
 | commit | `slow` のスイートも全体 |
 
 - 同じ作業ツリーで、直前の段階が同じ範囲を走らせて結果がまだ有効なら、走らせ直さない（省いたことと、どの結果を使ったかを書く）。
+- `fast` の全体と `tdd.checks` は、1 つのコマンドにつないで同じ往復で走らせる（`<all> ; <checks>` のように、片方が落ちてももう片方の結果が出る形）。
+  Run the fast suites and `tdd.checks` as one command in one turn.
 - lint と整形は、`tdd.hooks` がするならフックに任せる。
 - `tdd.known_failures` に名前のある失敗だけを除く。それ以外の、作業と関係のないテストが落ちたら止まる。
 - **選ばれた件数を必ず確かめる。** 成功で終わっても、選ばれたテストが 0 件なら、それは緑ではない。`selected` の読み方で件数を確かめ、

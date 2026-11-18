@@ -1,0 +1,22 @@
+id: no-new-comments-go
+language: Go
+severity: error
+message: "Comment added: say it with a name, a type or a test (kept: doc comments, tool directives, license, Given/When/Then)"
+rule:
+  kind: comment
+  not:
+    any:
+      - regex: '^//(go:|nolint|lint:ignore|export\s|line\s|\s*\+build|\s*#nosec|\s*(Given|When|Then|And)\b)|.*(?i:copyright|spdx-license-identifier)'
+      - inside:
+          stopBy: end
+          has:
+            kind: comment
+            regex: 'Code generated .*DO NOT EDIT|@generated'
+      - precedes:
+          any:
+            - kind: package_clause
+            - kind: function_declaration
+            - kind: method_declaration
+            - kind: type_declaration
+            - kind: const_declaration
+            - kind: var_declaration
