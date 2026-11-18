@@ -72,13 +72,15 @@ Project-specific facts come from the profile's `tdd` block; never guess what it 
   - <項目> — 理由: <なぜ>
   ```
 - **印:** `[ ]` 未着手、`[~]` 着手中（red が付ける）、`[x]` 緑（green が付ける）。種類は ZOMBIES の頭文字（`[O/B]` など）か、
-  既存のテストを書き換える `[change]`、廃止する振る舞いのテストを消す `[remove]`、今の動きを固定する `[pin]`（下の「テストの無いコードを変えるとき」）。
+  既存のテストを書き換える `[change]`、廃止する振る舞いのテストを消す `[remove]`、今の動きを固定する `[pin]`（下の「テストの無いコードを変えるとき」）、
+  観点の読み直しが足す `[fix]`（`final-review.md`）。
 - **二重ループのリスト**は `## 受け入れシナリオ` の下にシナリオ（`### [ ] A<n> <名前>`）を並べ、その下に内側の項目を置く（形式は `plan.md`）。
   シナリオの印: `[ ]` 未着手、`[~]` 進行中のタグを付けて書き、振る舞いで落ちるのを見た、`[x]` 緑になってタグを外した。**進行中の `[~]` のシナリオは常に 1 本だけ。**
   内側の項目は、進行中のシナリオの下から取る。
-- **項目を勝手に足さない。** 新しく要る振る舞いに気づいたら、報告して、足すかどうかはユーザーが決める。例外は 1 つだけ:
+- **項目を勝手に足さない。** 新しく要る振る舞いに気づいたら、報告して、足すかどうかはユーザーが決める。例外は 2 つ:
   承認されたシナリオの外側の失敗が示す、足りない振る舞いを 1 件、そのシナリオの内側に足す（`accept.md`。出典は「シナリオ A<n> の失敗」）。
-  Never add items yourself — except the one inner item `accept.md` derives from an approved scenario's outer failure.
+  もう 1 つ、リストが尽きたあとの観点の読み直しが、振る舞いの間違いを示す指摘を 1 件ずつ `[fix]` として足す（`final-review.md`）。
+  Never add items yourself — except the one inner item `accept.md` derives from an approved scenario's outer failure, and the `[fix]` items `final-review.md` adds from lens findings.
 
 ## テストの無いコードを変えるとき / Changing untested code
 
