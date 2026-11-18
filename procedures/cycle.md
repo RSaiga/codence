@@ -70,6 +70,7 @@ With `on_doubt: log`, follow `unattended.md` instead.
 - refactor: 振る舞いや期待値を変えないと直せない。バグを見つけた。
 - コミット: 赤のまま。フックが落ちる。触っていないファイルを切り分けられない。
 - 同じ項目で 2 周しても進まない。
+- 観点の読み直し（`final-review.md`）: 観点が `STOPPED`、3 周目のあとも直すものが残る、同じ指摘が 2 回直しても残る、設計の判断が要る（`on_doubt` が `stop` のとき）。
 
 ## 抜けたら / After the loop
 
@@ -87,6 +88,9 @@ With `on_doubt: log`, follow `unattended.md` instead.
    - 直すのは**古い事実**だけ（消えた名前、動いたパス、そのままでは失敗するコマンド）。直したら `docs` の 1 コミットにする（`commit.md`）。
    - 文書の規範（〜する・〜しない）とコードが食い違うものは、文書が古いのではなくコードの側の問題。書き換えずに報告する。
    Grep the whole repo for names this branch changed or removed; fix only stale facts in docs (one `docs` commit), and report — never rewrite — rules the code contradicts.
+5. **観点で読み直して直す。** `final-review.md` を読み、そのとおりに行う（ブランチの変更の全体を、新しい文脈で、`acceptance` を除くすべての観点で読み、
+   指摘を確信度に関わらず直すか退ける。直すものが無くなるまで、3 周まで）。止まった理由が「リストが尽きた」ときだけ行う。
+   Then follow `final-review.md`: read the whole branch with every lens in a fresh context and fix or dismiss every finding, up to three rounds. Only when the list ran out.
 
 ## lint にできる候補 / Lint candidates
 
@@ -134,6 +138,7 @@ and change nothing: the user decides.
 スタック: 停止済み
 止まった理由: <止まる条件のどれか。回しきったなら「リストが尽きた」>
 ```
+観点で読み直した回は、`final-review.md` の「読み直し:」「退けた:」の行を足す。
 `on_doubt` が `log` の回は、`unattended.md` の「判断:」の行を足す。
 lint にできる候補があるときだけ、最後に足す（無ければ何も書かない）:
 ```
