@@ -1,0 +1,14 @@
+id: no-new-comments-php
+language: Php
+severity: error
+message: "Comment added: say it with a name, a type or a test (kept: doc comments, tool directives, license, Given/When/Then)"
+rule:
+  kind: comment
+  not:
+    any:
+      - regex: '^(/\*\*|(//|#|/\*)\s*(phpcs:|@phpstan-|@psalm-|@codeCoverageIgnore|@noinspection|(Given|When|Then|And)\b)|.*(?i:copyright|spdx-license-identifier))'
+      - inside:
+          stopBy: end
+          has:
+            kind: comment
+            regex: 'Code generated .*DO NOT EDIT|@generated'

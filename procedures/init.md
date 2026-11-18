@@ -37,8 +37,20 @@ Write only inside `<root>/.codence/`. Never change Git config, `.gitignore`, or 
      | `acceptance` | `tdd.acceptance` が `none` でない（外側のシナリオを閉じるたびに新しい文脈を 1 つ起動する） |
      観点を足すほど `review` の費用が増えることを、下書きに 1 行で書く。目安に当たらない観点も「入れない案」として理由つきで並べる（黙って落とさない）。
      List every lens in the draft with a proposed on/off and the evidence; note that each lens adds review cost.
+   - `lints`（`config.yaml`）: キットの `lints/` にある lint を**すべて**下書きに並べ、「入れる案／入れない案」と根拠を書く。今あるのは `comments`
+     （コメントを足さない。新しく足した行だけを見るので、今あるコメントには触らない）。
+     - 入れる案の目安: プロジェクトの規約がコメントを控えるよう求めている、またはユーザーが望んでいる。見つからなければ「入れない案」。
+     - プロジェクトの lint の道具で同じ規則が書けるなら、そちらに足す案にする（キットの lint は入れない）。
+     - 言語: `code` の拡張子のうち、`lints/comments/` に規則があるもの（`typescript`・`tsx`・`javascript`・`rust`・`go`・`python`・`php`）。規則の無い言語には効かないと書く。
+     - 走らせる道具: `ast-grep` が入っていればそれ、無くて node があれば `npx -y -p @ast-grep/cli@0.51.3 ast-grep`（入れずに走らせる）。どちらも無ければ、入れ方を書いて「入れない案」にする。
+     - 残すコメント: 規則の既定は、説明用のコメント（`/**`・`///`、Go は宣言の直前のコメント）、道具への指示（lint の抑止、カバレッジの除外、型やビルドの指示など）、ライセンス、Given / When / Then。自動生成のファイルは見ない。プロジェクトの規約が違うものを求めていれば、案に書く。
+     List every kit lint with a proposed on/off and evidence; prefer the project's own linter when it can express the rule.
    Fill values from the project itself; leave unknowns empty and say so — never invent a catalog, a command, or a known failure.
 4. **下書きを見せて、ユーザーの了承を得てから書く。** / Show the draft; write only after the user agrees.
+   `lints` を入れるなら、キットの `lints/new-lines.sh` と、使う言語の `lints/comments/<言語>.yml` を `.codence/lints/`（規則は `comments/` の下）に写し、
+   `.codence/lints/sgconfig.yml` に `ruleDirs: [comments]` と書き、`tdd.checks` に `AST_GREP="<道具>" bash .codence/lints/new-lines.sh <diff_base>` を足す。
+   コミットのフック（`--staged` を付ける）と CI に入れる行は、案として報告に書くだけにする（`.codence/` の外は変えない。個人用にしたなら、フックと CI からは使えないことも書く）。
+   Kit lints are copied under `.codence/lints/` and run from `tdd.checks`; hook and CI lines are proposed, not written.
 5. **個人用か共有かを聞く。**
    - 個人用: `.git/info/exclude` に `/.codence/` を足す方法を**案内するだけ**（自分では足さない）。
    - チームで共有: コミットしてよいと伝える（コミットはしない）。

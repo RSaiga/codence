@@ -1,0 +1,14 @@
+id: no-new-comments-javascript
+language: JavaScript
+severity: error
+message: "Comment added: say it with a name, a type or a test (kept: doc comments, tool directives, license, Given/When/Then)"
+rule:
+  kind: comment
+  not:
+    any:
+      - regex: '^(/\*\*|///\s*<reference|(//|/\*)\s*(eslint-|oxlint-|deno-lint-ignore|biome-ignore|@ts-|prettier-ignore|(istanbul|c8|v8) ignore|webpack[A-Z]|@vite-ignore|@vitest-environment|@jest-environment|global\s|(Given|When|Then|And)\b)|.*(?i:copyright|spdx-license-identifier))'
+      - inside:
+          stopBy: end
+          has:
+            kind: comment
+            regex: 'Code generated .*DO NOT EDIT|@generated'

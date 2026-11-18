@@ -121,9 +121,10 @@ Renamed from `agent-discipline` in 0.3.0: uninstall and reinstall, and rename ea
 `config.yaml` では、ほかに次を選べる。
 - `router`: `none`（既定）か `inert`。`inert` にすると、コメントだけ・テストの追加だけ・名前の変更だけの差分では security と concurrency を飛ばす。
 - `backlog`: `none`（既定）か `file`。`file` にすると、`tdd-plan` が分けたストーリーを `backlog.md` に書く。
+- `lints`: 入れたキットの lint。今あるのは `comments`（コメントを足さない）。`init` が案を出し、了承されると `.codence/lints/` に規則を置いて、green の確かめで走らせる。見るのは新しく足した行だけで、今あるコメントには触らない。説明用のコメント・道具への指示（lint の抑止、カバレッジの除外、型やビルドの指示）・ライセンス・Given / When / Then は残し、自動生成のファイルは見ない。道具は ast-grep（入っていなければ `npx` で入れずに走らせる）。対応は TypeScript・TSX・JavaScript・Rust・Go・Python・PHP。
 - `on_doubt`: `stop`（既定）か `log`。`log` にすると、`tdd-cycle` は人が見ていなくても迷いで止まらない。戻せない操作・自分のものでないプロセス・始められないときだけ止まり、ほかは戻せる方を選んで進むか、その項目を保留して（途中の変更は stash に退避）次へ進み、`decisions/<ブランチ>.md` に記録する。依頼に「朝まで止まらずに回して」のように書けば、その回だけ `log` になる。
 
-`config.yaml` also sets `router` (`none` or `inert`, which skips security/concurrency on comment-only, new-test-only or rename-only changes) `backlog` (`none` or `file`), and `on_doubt` (`stop` or `log`: with `log`, `tdd-cycle` stops only for irreversible or foreign things, otherwise decides the reversible way or parks the item and moves on, logging each in `decisions/<branch>.md`; a request saying so switches one run).
+`config.yaml` also sets `router` (`none` or `inert`, which skips security/concurrency on comment-only, new-test-only or rename-only changes) `backlog` (`none` or `file`), `lints` (kit lints: `comments` blocks newly added comments, run from the green checks via ast-grep), and `on_doubt` (`stop` or `log`: with `log`, `tdd-cycle` stops only for irreversible or foreign things, otherwise decides the reversible way or parks the item and moves on, logging each in `decisions/<branch>.md`; a request saying so switches one run).
 
 項目の意味は `templates/` の雛形と、`procedures/discipline.md`・`procedures/tdd.md` の表にある。
 The keys are described by the templates in `templates/` and the tables in `procedures/discipline.md` and `procedures/tdd.md`.
