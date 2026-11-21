@@ -64,8 +64,8 @@ An entry not in the table (a single TDD stage): read `skills/<entry>/SKILL.md` a
 |---|---|---|---|
 | `tdd-plan` | `procedures/tdd.md`、`procedures/plan.md` | リスト（無くてよい）、`tdd.rules` の規約 | `procedures/plan.md` |
 | `tdd-cycle` | `procedures/tdd.md`、`procedures/cycle.md`、`procedures/accept.md`、`procedures/red.md`、`procedures/green.md`、`procedures/refactor.md`、`procedures/commit.md`、`lenses/structure.md` | リスト、`tdd.rules` の規約、`lenses.structure.catalog` | `procedures/cycle.md` |
-| `review` | `procedures/review.md` | なし | `procedures/review.md` |
-| `refactor` | `procedures/review.md`、`procedures/refactor-only.md`、`procedures/refactor.md`、`procedures/commit.md`、`lenses/structure.md` | `lenses.structure.catalog`、`tdd.rules` の規約 | `procedures/refactor-only.md` |
+| `review` | `procedures/review.md`（対象の指定があれば `procedures/review-more.md` も） | なし | `procedures/review.md` |
+| `refactor` | `procedures/review.md`、`procedures/review-more.md`、`procedures/refactor-only.md`、`procedures/refactor.md`、`procedures/commit.md`、`lenses/structure.md` | `lenses.structure.catalog`、`tdd.rules` の規約 | `procedures/refactor-only.md` |
 | `retro` | `procedures/retro.md` | なし | `procedures/retro.md` |
 | `init` | `procedures/init.md` | なし | `procedures/init.md` |
 

@@ -34,7 +34,12 @@ Write only inside `<root>/.codence/`. Never change Git config, `.gitignore`, or 
      | `security` | 外から呼ばれる口がある（HTTP のルート・CLI の入力・Webhook・メッセージの受け口） |
      | `concurrency` | 非同期の処理、DB への書き込み、ジョブ・定期実行、プロセス内のキャッシュがある |
      | `isolation` | テナント（組織・利用者ごとのデータ）がある、またはテストが DB・ファイル・環境変数を共有している |
+     | `alerting` | 本番でユーザーが使っていて、エラーの追跡サービス（Sentry など）の初期化か、外から呼ばれる口がある |
+     | `logging` | 本番で動くサービスで、ログの口（ロガーの初期化、要求ごとの行を書く包み）がある |
      | `acceptance` | `tdd.acceptance` が `none` でない（外側のシナリオを閉じるたびに新しい文脈を 1 つ起動する） |
+     `alerting` を入れる案なら、`profile.md` の `lenses.alerting.report` に、報告の口（送る関数、自動で送る包み・例外の処理）と、そこから人に通知が届くか（ログから通知が出るかも）を、見つけたファイルから書く。通知の設定がコードの外にあって確かめられなければ、そう書いてユーザーに聞く。
+     `logging` を入れる案なら、`profile.md` の `lenses.logging.logger` に、ログの口（関数、形式、自動で付く項目、要求ごとに出る行、残す期間）を、見つけたファイルから書く。
+     `lenses.logging.catalog` は、プロジェクトのログの一覧（何を残し、何を残さないかと理由）があればそのファイル。無ければ空のままにし、review の問いに答えるたびに一覧が育つことを伝える。推測で作らない。
      観点を足すほど `review` の費用が増えることを、下書きに 1 行で書く。目安に当たらない観点も「入れない案」として理由つきで並べる（黙って落とさない）。
      List every lens in the draft with a proposed on/off and the evidence; note that each lens adds review cost.
    - `lints`（`config.yaml`）: キットの `lints/` にある lint を**すべて**下書きに並べ、「入れる案／入れない案」と根拠を書く。今あるのは `comments`

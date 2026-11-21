@@ -69,7 +69,7 @@ Run only when `acceptance` is in `lenses`, always in a fresh context, never inli
 
 1. **渡すものを集める。** 範囲（B なら `シナリオ`、C なら `リスト全体`）、シナリオの文、その出典の文（リストの冒頭の出典と、シナリオの出典）、土台のコミット（`diff_base` との分岐点）、
    変わったファイルの一覧（`git diff --name-only <土台>` と追跡外のファイル）、`tdd.rules` があればその場所。**リストの残り・自分の報告・考えは渡さない。**
-2. **起動する。** `config.yaml` の `runner` が `command` なら `runner_command` で（`review.md` の `command` と同じ渡し方。中身は 1 の入力）。
+2. **起動する。** `config.yaml` の `runner` が `command` なら `runner_command` で（`review-more.md` の `command` と同じ渡し方。中身は 1 の入力）。
    そうでなければ、ツールに `acceptance-lens` の担当があればそれを、無ければ新しい文脈の担当を使い、キットの `lenses/acceptance.md` の絶対パスと 1 の入力だけを渡す。
    新しい文脈を起動できなければ、そう伝えて止まる（`lenses` から `acceptance` を外せば、観点なしで進められる）。観点が返るまで、何も書かない。
 3. **記録する。** シナリオの見出しの下に `    受け入れの観点: <n> 回目 — <最後の行>` を書く（あれば書き換える）。
