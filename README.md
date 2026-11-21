@@ -1,4 +1,19 @@
+<div align="center">
+
 # codence
+
+[![bench-tests](https://github.com/RSaiga/codence/actions/workflows/bench-tests.yml/badge.svg)](https://github.com/RSaiga/codence/actions/workflows/bench-tests.yml)
+[![version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FRSaiga%2Fcodence%2Fmain%2F.claude-plugin%2Fplugin.json&query=%24.version&label=version&color=blue)](.claude-plugin/plugin.json)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-d97757)](#入れる--install)
+[![Codex plugin](https://img.shields.io/badge/Codex-plugin-10a37f)](#入れる--install)
+
+[入れる / Install](#入れる--install) ·
+[プロジェクトで使う / Use it](#プロジェクトで使う--use-it-in-a-project) ·
+[計画 / Plan](PLAN.md) ·
+[不具合の報告 / Report a bug](https://github.com/RSaiga/codence/issues)
+
+</div>
 
 > **名前の由来:** codence は、code と dance、それに cadence（一定のリズム、歩調）を重ねた造語。
 > AI と一緒にコードを書くことを、plan → red → green → refactor という決まった歩調で、踊るように刻み続ける。
