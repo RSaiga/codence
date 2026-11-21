@@ -7,7 +7,7 @@ disable-model-invocation: true
 プラグインの根元 / Plugin root: `${CLAUDE_PLUGIN_ROOT}`（置き換わっていなければ、この SKILL.md の 2 つ上のディレクトリ / if not substituted, two directories above this SKILL.md）。以下のパスはすべてここからの相対パス。 / All paths below are relative to it.
 
 最初の 1 回の往復で、次を**まとめて**行う:
-- `procedures/discipline.md`、`procedures/review.md`、`procedures/refactor-only.md`、`procedures/refactor.md`、`procedures/commit.md`、`lenses/structure.md` を読む。
+- `procedures/discipline.md`、`procedures/review.md`、`procedures/refactor-only.md`、`procedures/refactor.md`、`procedures/commit.md`、`lenses/structure.md` を読む。呼び出しに対象の指定があれば `procedures/review-more.md` も読む。
 - `git rev-parse --show-toplevel; git branch --show-current; cat .codence/profile.md .codence/config.yaml` を、プラグインではなく**プロジェクトの現在のディレクトリで**実行する。
 
 次の往復で、`lenses.structure.catalog` と `tdd.rules` の規約をまとめて読む。そのあと、動く条件を確かめてから `procedures/refactor-only.md` を実行する。
