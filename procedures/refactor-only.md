@@ -3,7 +3,7 @@
 振る舞いを変えない。テストの期待値を変えない。テストを足さない。 / No behavior change; assertions untouched; no new tests.
 直してよいのは、既存のテストが守っている場所だけ。 / Touch only what existing tests guard.
 
-1. **対象を決める。** 呼び出しの指定に従う（`review.md`「対象を決める」と同じ）: 無ければ作業中の変更、ブランチ名やコミットの範囲ならその差分、
+1. **対象を決める。** 呼び出しの指定に従う（`review.md`「対象を決める」と同じ。指定があれば `review-more.md`「対象の指定」）: 無ければ作業中の変更、ブランチ名やコミットの範囲ならその差分、
    ファイルやフォルダならそのコード全体。
 2. **匂いを挙げる。** `lenses/structure.md` を、`lenses.structure.catalog` と `tdd.rules` の規約に照らして実行する（読むだけ）。
    挙げた匂いの数と場所を書く。直すものが無ければ、無いと言って止まる。リファクタをひねり出さない。

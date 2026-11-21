@@ -34,12 +34,12 @@ Always write the report's fixed lines and blocks too, unchanged; explanations go
 | | `code` | 実装のファイルとみなすパターンの一覧 | すべて |
 | | `lenses.<観点>.catalog` | `config.yaml` の `lenses` に挙げた観点ごとの、判定の基準のファイル（根元からの相対パス）。どの観点もプロジェクトが足す項目で、無くてよい（空なら読まない。汎用の項目は観点のファイルにある）。`acceptance` は要らない（基準はシナリオの出典） | すべて |
 | | `tdd.suites` | テストのスイートの一覧（`tdd.md` の「プロジェクトの情報」） | TDD の入口、`refactor` |
-| `config.yaml` | `runner` | `inline`・`subagent`・`command`（`review.md`「観点を実行する」。`subagent` は任意で `runner_mode`（`parallel`・`combined`、既定は `parallel`）と `runner_model`、`command` は必須の `runner_command`（引数の配列）と任意の `runner_mode`） | すべて |
+| `config.yaml` | `runner` | `inline`・`subagent`・`command`（`review-more.md`「別の文脈で動かす」。`subagent` は任意で `runner_mode`（`parallel`・`combined`、既定は `parallel`）と `runner_model`、`command` は必須の `runner_command`（引数の配列）と任意の `runner_mode`） | すべて |
 | | `lenses` | 使う観点の一覧（`structure`・`acceptance`・`security`・`concurrency`・`isolation`・`alerting`・`logging`）。`[]` なら観点を使わない（`review` は観点が無いと伝えて止まる）。`acceptance` は常に新しい文脈で動かす（`runner` に関わらない） | すべて |
 | | `commit` | `never` / `on-request` / `on-green` | すべて |
 | | `commit_language` | コミットメッセージの言語（例 `ja`, `en`） | TDD の入口 |
 
-任意の項目: `profile.md` の `examples`（言語パックの名前か、その一覧。`typescript`・`rust`・`go`・`python`・`java`・`php`・`ruby`・`csharp`・`none`）、`config.yaml` の `backlog`（`file`・`none`。既定は `none`。`plan.md`「ストーリーに分ける」）、`router`（`none`・`inert`。既定は `none`。`review.md`「観点を選ぶ」）、`commit_style`（`conventional`・`history`。既定は `conventional`。`commit.md`）、`second_opinion_commands`（引数の配列の一覧。`--second` で使う別の AI の候補。`second-opinion.md`）、`lints`（入れたキットの lint の一覧。`comments`。既定は空。中身は `.codence/lints/` にあり、`tdd.checks` から走る。`init.md`）、`on_doubt`（`stop`・`log`。既定は `stop`。`tdd-cycle` だけが使う。その回の依頼が「止まらずに」「朝まで」のように止まらずに回すことを明示すれば `log`、「迷ったら止まって」なら `stop`（優先順位の 1）。`unattended.md`）。言語パック（キットの `examples/`）は、無ければ `none`。
+任意の項目: `profile.md` の `examples`（言語パックの名前か、その一覧。`typescript`・`rust`・`go`・`python`・`java`・`php`・`ruby`・`csharp`・`none`）、`config.yaml` の `backlog`（`file`・`none`。既定は `none`。`plan.md`「ストーリーに分ける」）、`router`（`none`・`inert`。既定は `none`。`review-more.md`「観点を選ぶ」）、`commit_style`（`conventional`・`history`。既定は `conventional`。`commit.md`）、`second_opinion_commands`（引数の配列の一覧。`--second` で使う別の AI の候補。`second-opinion.md`）、`lints`（入れたキットの lint の一覧。`comments`。既定は空。中身は `.codence/lints/` にあり、`tdd.checks` から走る。`init.md`）、`on_doubt`（`stop`・`log`。既定は `stop`。`tdd-cycle` だけが使う。その回の依頼が「止まらずに」「朝まで」のように止まらずに回すことを明示すれば `log`、「迷ったら止まって」なら `stop`（優先順位の 1）。`unattended.md`）。言語パック（キットの `examples/`）は、無ければ `none`。
 Optional: the profile's `examples` names one language pack or a list of them; absent means none.
 
 `profile.md` の YAML の後ろの本文は、このプロジェクトについての自由なメモ。手順が参照を指示したときに読む。
