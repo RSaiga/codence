@@ -21,6 +21,7 @@ Issues and pull requests are welcome, in Japanese or English.
    bench/tests/tdd-order.sh     # TDD の順番の採点 / the TDD order grader
    bench/tests/outer-order.sh   # 外側のループの順番の採点 / the outer-loop order grader
    bench/tests/subagent-must.sh # 新しい文脈で読んだ担当の返事の採点 / grading what a fresh-context lens returned
+   bench/tests/readme-sync.sh   # 英語と日本語の README の節・入口・観点がそろうか / the English and Japanese READMEs match
    bench/codex-stream.py        # Codex の出力を採点が読む形にする（bench の版を Codex で走らせるとき）/ converts Codex events for the grader
    bench/fixtures/              # 外側の段階を確かめる練習用のプロジェクト / a practice project for the outer-loop stages
    ```
@@ -30,7 +31,8 @@ Issues and pull requests are welcome, in Japanese or English.
 4. 本文（`procedures/`・`lenses/`・`examples/`・`templates/`・入口の本文）にツールの名前やローカルのパスを書かない。
    例は架空の題材で書き、実在の組織・製品・人の名前を出さない。
    Keep the bodies tool-neutral and free of local paths; write examples in a fictional domain, never naming real organizations, products or people.
-5. 本文と README は日英併記（日本語の文のあとに英語の要約）。 / Bodies and the README are bilingual: Japanese, then an English summary.
+5. 本文は日英併記（日本語の文のあとに英語の要約）。README は英語の `README.md` と日本語の `README.ja.md` に分け、両方を同じ変更で直す（`bench/tests/readme-sync.sh` が節・入口・観点の食い違いを止める）。
+   Bodies are bilingual: Japanese, then an English summary. The README is split into `README.md` (English) and `README.ja.md` (Japanese); change both together.
 
 ## 版 / Versions
 
