@@ -18,7 +18,7 @@ Each round reads the whole branch change (never just the fix), with every config
 
 指摘を 1 件ずつ、上から当てる。前の周で退けた指摘と、同じ場所・同じ中身のものは数えない。
 
-1. **振る舞いが間違っている指摘**（security・concurrency・isolation の指摘、ほかの観点でも「この入力でこう壊れる」と書けるもの）:
+1. **振る舞いが間違っている指摘**（security・concurrency・isolation・alerting の指摘、ほかの観点でも「この入力でこう壊れる」と書けるもの）:
    リストの末尾の `## 観点の指摘 / Review findings`（無ければ作る）に 1 件ずつ足す:
    `- [ ] [fix] <どこで>: <あるべき振る舞いを 1 文> — 出典: 観点の読み直し <周> <観点> <見出し>`
    `cycle.md` の内側のループ（red → green → コミット → refactor → コミット）で直す。

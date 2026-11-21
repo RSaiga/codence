@@ -53,14 +53,14 @@ Read-only throughout. Fixing is not part of review.
 ## 2. 観点を選ぶ / Route
 
 `config.yaml` の `router` が `inert` のときだけ行う（既定の `none` では、すべての観点を実行する）。観点のファイルを読む前に、1 の差分だけで決める。
-- **security・concurrency・isolation を飛ばしてよいのは、変更したすべての行が次のどれかに当たるときだけ。** 1 行でも当たらなければ、すべて実行する。迷ったら実行する。
+- **security・concurrency・isolation・alerting を飛ばしてよいのは、変更したすべての行が次のどれかに当たるときだけ。** 1 行でも当たらなければ、すべて実行する。迷ったら実行する。
   - コメントか空行だけの変更。
   - テストのファイル（`tdd.tests` の置き場所）に、新しいテストのケースを足すだけ。共有の準備・環境変数・時刻・モジュールの変数・ファイルに触れない。
     この場合も `isolation` は飛ばさない（テスト同士のデータの独立は、この観点が見るもの）。
   - 1 つの関数の中だけで、名前を変えるだけ（ほかの字句は同じ）。
 - `structure` は常に実行する。`acceptance` はリストで決まる（`router` に関わらない）。プロジェクトが足した項目（`catalog`）を持つ観点は飛ばさない。
 - 飛ばした観点と、当たった条件を報告に書く（「飛ばした: security, concurrency — コメントだけの変更」）。飛ばした観点は `CLEAN` ではない。
-Run only with `router: inert`: skip security, concurrency and isolation only when every changed line is a comment, a new test case that touches no
+Run only with `router: inert`: skip security, concurrency, isolation and alerting only when every changed line is a comment, a new test case that touches no
 shared state (isolation still runs on test changes), or a rename inside one function; otherwise run everything. Report what was skipped and why; a skipped lens is not CLEAN.
 
 ## 3. 観点を実行する / Run the lenses
@@ -96,7 +96,7 @@ A lens that fails to start or answers without its last line is STOPPED, never CL
 
 - 観点ごと、優先度ごとの件数と、観点ごとの最後の行
 - 「挙動を変えずに直せるもの」と「設計の判断が要るもの」の区別
-- security・concurrency・isolation の確信度「高」は正しさの問題として、**落ちるテストを書くところから**（`tdd-red`）直すことを勧める。「中」「低」は報告だけ。
+- security・concurrency・isolation・alerting の確信度「高」は正しさの問題として、**落ちるテストを書くところから**（`tdd-red`）直すことを勧める。「中」「低」は報告だけ。
   直すのはこの手順の仕事ではない（読むだけ）。 / High security/concurrency findings are correctness bugs: recommend starting from a failing test.
 - 指摘が 0 件なら「構造的な指摘なし」のように**はっきり書く**。無理に絞り出さない。
   Say plainly when there is nothing to report; don't squeeze out findings.
