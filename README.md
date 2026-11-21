@@ -38,7 +38,7 @@ TDD runs as a **single layer** (inner tests only) or a **double loop** (acceptan
 |---|---|
 | `go` | どの依頼もここから。依頼を目的・問題・期待する変化の 3 行に言い直し、依頼とプロジェクトの状態から下の入口を 1 つ選び、その手順を todo に写して実行する。計画が承認されたら、そのまま cycle に進む / One entry for any request: restates it, picks one of the entries below from the request and the project's state, copies its steps to a todo and runs it; after an approved plan, goes on into the cycle |
 | `init` | プロジェクトを読んで `.codence/` の設定を下書きし、了承を得てから書く / Drafts the project settings and writes them after you agree |
-| `review` | 観点で読む（structure・security・concurrency・isolation・alerting・acceptance）。対象は作業中の変更、ブランチか範囲、プルリクエストの URL、ファイルかディレクトリ。読むだけ / Reviews through the lenses: the working change, a branch or range, a pull request URL, or files and directories. Read-only |
+| `review` | 観点で読む（structure・security・concurrency・isolation・alerting・logging・acceptance）。対象は作業中の変更、ブランチか範囲、プルリクエストの URL、ファイルかディレクトリ。読むだけ / Reviews through the lenses: the working change, a branch or range, a pull request URL, or files and directories. Read-only |
 | `refactor` | TDD の外で構造だけを直す。structure の観点で匂いを挙げ、既存のテストが守っている場所だけを 1 つずつ直す / Restructures outside TDD: finds smells with the structure lens and fixes, one at a time, only what existing tests guard |
 | `tdd-plan` | これから入れる変更のテストのリストを作る（モード、シナリオ、内側の項目、影響を受ける既存のテスト）。大きな依頼は先にストーリーに分ける。承認のあとで書く / Plans the test list, splitting large requests into stories first; writes after approval |
 | `tdd-cycle` | テストのリストが尽きるまで回す。単層なら red → green → コミット → refactor、二重ループならシナリオごとに外側と内側を回す。同じ形の直しを 2 回したら、プロジェクトの言語と lint の道具に合わせた lint のルールの案を報告する（設定は書き換えない）。終わりに、変えた名前が残る文書（README など）の古い事実を直し、ブランチの変更の全体を新しい文脈ですべての観点で読み直して、指摘を確信度に関わらず直すか理由を書いて退ける（直すものが無くなるまで、3 周まで）/ Runs the TDD loop until the list is done, single layer or double loop; when the same fix was made twice, proposes a lint rule for the project's linter without changing it; finally fixes stale facts in docs, then reads the whole branch with every lens in a fresh context and fixes or dismisses every finding, up to three rounds |
@@ -55,6 +55,7 @@ TDD runs as a **single layer** (inner tests only) or a **double loop** (acceptan
 | concurrency | 確かめてから書き込むまでの間に別の処理が割り込む競合、冪等性、トランザクション、複数インスタンス、共有の状態など（CON-1〜8）/ races, idempotency, transactions, shared state |
 | isolation | データが混ざらないか。本番では、テナントの絞り込み、テナントをまたぐ集計、キャッシュとセッションのキー、非同期の処理への引き継ぎ、別のテナントのデータの存在の漏れを見る。テストでは、テスト同士がデータ・共有の状態・並列実行の資源を取り合わないかを見る（ISO-1〜8）/ tenant isolation and test isolation |
 | alerting | 提供者が失敗をユーザーからの連絡で初めて知る箇所（DORA の proactive failure notification）。握りつぶし、報告の口を通らないエラーの応答、ログだけで終わるジョブ、黙った劣化、画面側の失敗、予期しない失敗を予期したものとして扱うこと、決済・契約などの失敗が運営に誰の・どの操作かつきで届かないこと（ALR-1〜7）。入力の誤りのような予期した失敗と、再試行で回復した失敗は知らせない側として扱う / failures the provider would first hear of from users, or never |
+| logging | 障害のときにログから原因までたどれない箇所と、ログが穴になる箇所。元の例外を捨てる、誰の・どの操作かが無い、秘密や個人情報を出す、外からの値で行を偽装できる（LOG-1〜4）。お金の操作や外部のサービスの失敗などにログが無ければ、足せとは言わず「残すか。残さないなら理由」を聞き、答えをプロジェクトのログの一覧に残す（LOG-5）。監査の記録は見ない / where logs could not lead from a failure to its cause, or leak or can be forged; missing event logs become questions |
 | acceptance | 緑になったシナリオの約束を、実装が本当に守っているか。書いた本人の結論を知らない別の担当が読む / whether the implementation keeps a green scenario's promise, judged in a fresh context |
 
 既定で動くのは structure だけ。ほかの観点は `config.yaml` の `lenses` で足す。

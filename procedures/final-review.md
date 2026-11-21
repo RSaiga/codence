@@ -18,7 +18,7 @@ Each round reads the whole branch change (never just the fix), with every config
 
 指摘を 1 件ずつ、上から当てる。前の周で退けた指摘と、同じ場所・同じ中身のものは数えない。
 
-1. **振る舞いが間違っている指摘**（security・concurrency・isolation・alerting の指摘、ほかの観点でも「この入力でこう壊れる」と書けるもの）:
+1. **振る舞いが間違っている指摘**（security・concurrency・isolation・alerting・logging の指摘、ほかの観点でも「この入力でこう壊れる」と書けるもの）:
    リストの末尾の `## 観点の指摘 / Review findings`（無ければ作る）に 1 件ずつ足す:
    `- [ ] [fix] <どこで>: <あるべき振る舞いを 1 文> — 出典: 観点の読み直し <周> <観点> <見出し>`
    `cycle.md` の内側のループ（red → green → コミット → refactor → コミット）で直す。
@@ -28,6 +28,8 @@ Each round reads the whole branch change (never just the fix), with every config
    その場所を通るテストが無ければ直さず、`退けた: テストで守られていない（足すテストの案: <1 行>）` として報告に残す。
 3. **設計の判断が要る指摘**（直し方が 2 つ以上あり、どれを選ぶかで振る舞いや構造が大きく変わる）:
    `on_doubt` が `stop` なら、ここで止まって聞く。`log` なら `unattended.md` の「決めて進む」のとおり戻せる方を選んで、1 か 2 として直し、判断の記録に書く。
+   `logging` の問い（LOG-5）もここに入れる。`stop` なら聞き、答え（残す、または残さないと理由）をログの一覧に書き足し、残すなら 1 として直す。
+   `log` なら残す側を選び（黙って抜けたままにしない）、判断の記録に問いとして書く。
 4. **誤りの指摘**（読み違い、変更の外の既存のコード、すでに守られていると示せるもの）: 直さず、`退けた: <根拠のファイルと行>` として報告に残す。
    理由を示せないものを退けない。迷ったら 1 か 2 として直す。
 Wrong behaviour → a `[fix]` item through red/green (dismissed if no test fails for the stated reason); behaviour-preserving → refactor discipline;
