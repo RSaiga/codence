@@ -33,6 +33,16 @@ Handles both the single layer and the double loop, stage by stage or end to end 
    On an unintended failure, open what the failure left behind (full output, failure artifacts — screenshots, DOM snapshots, traces — and browser console) before touching code,
    and name what you saw. Never guess, edit and rerun. If nothing can be opened and the output does not settle the cause, stop.
 
+## テストの書き方 / How tests are written
+
+テストを書くとき（red、accept）は、お手本や隣のテストより先に、次を守る。プロジェクトの規約が別のことを決めていれば、規約に従う。
+When writing tests (red, accept), these come before the example and the neighbours; the project's rules win where they say otherwise.
+
+1. **長さの境界は、多バイトの文字でも確かめる。** 文字数の上限のテストには、日本語や絵文字の入力も入れる。ASCII だけでは、文字数・バイト数・コード単位の数の違いが出ない。
+   Test length limits with multibyte input too (Japanese, emoji); ASCII alone cannot tell characters, bytes and code units apart.
+2. **固定の時間だけ待たない。** 待つなら、条件（表示された、応答が来た、ファイルができた）を待つ。
+   Wait for a condition, never for a fixed time.
+
 ## プロジェクトの情報 / Project facts
 
 プロジェクト固有のことは、`profile.md` の `tdd` から読む。ここに書いていないことを推測で補わない。
