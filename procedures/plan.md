@@ -52,6 +52,9 @@ Write no code and no tests. The only file you may write is this branch's test li
     「既存のテスト」に名指す。名指せるテストが無ければ、その面の項目を `[pin]` で立てる（最初から緑でよい。その面がつながっていることを守る）。
     One item per surface the change touches: surfaces fail independently. Don't split layers behind one surface; do split surfaces.
     If a shared fix already makes a surface hold, name the existing test proving that surface goes through it; with none, add a `[pin]` item for that surface.
+  - **画面だけで止めている制限は、サーバーの面にも項目を置く。** 入力の長さ・形式・権限などを画面が止めていても、API は画面を通らずに呼べる。
+    サーバーで断る項目を置く（サーバーがすでに断っているなら、それを守っている既存のテストを名指す）。
+    A limit the screen enforces gets a server-side item too: the API can be called without the screen.
   - 1 件目が固定値で通り、次の項目がそれを一般化させるように並べる。
   - 不具合の修正なら、不具合を再現して落ちるテストを先頭に置く。
 - **実際に使われる経路に絞る。** 呼ばれていない分岐やパラメータは「今回やらない」に理由つきで置く。
